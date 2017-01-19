@@ -19,7 +19,7 @@ from ws4py.messaging import TextMessage
 
 class ChatWebSocketHandler(WebSocket):
     def received_message(self, m):
-        print (m)
+        print ("message:" + m)
 
     def closed(self, code, reason="A client left the room without a proper explanation."):
         cherrypy.engine.publish('websocket-broadcast', TextMessage(reason))

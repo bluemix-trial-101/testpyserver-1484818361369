@@ -2,6 +2,14 @@
 import argparse
 import random
 import os
+import os
+try:
+  from SimpleHTTPServer import SimpleHTTPRequestHandler as Handler
+  from SocketServer import TCPServer as Server
+except ImportError:
+  from http.server import SimpleHTTPRequestHandler as Handler
+  from http.server import HTTPServer as Server
+
 
 import cherrypy
 
@@ -92,7 +100,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Echo CherryPy Server')
     parser.add_argument('--host', default='127.0.0.1')
-    parser.add_argument('-p', '--port', default=8000, type=int)
+    parser.add_argument('-p', '--port', default=9000, type=int)
     parser.add_argument('--ssl', action='store_true')
     args = parser.parse_args()
 
@@ -118,3 +126,18 @@ if __name__ == '__main__':
             }
         }
     )
+
+
+# Read port selected by the cloud for our application
+PORT = int(os.getenv('PORT', 8000))
+# Change current directory to avoid exposure of control files
+os.chdir('static')
+
+httpd = Server(("", PORT), Handler)
+try:
+  print("Start serving at port %i" % PORT)
+  httpd.serve_forever()
+except KeyboardInterrupt:
+  pass
+httpd.server_close()
+

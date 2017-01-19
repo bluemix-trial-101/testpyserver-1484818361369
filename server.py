@@ -92,7 +92,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Echo CherryPy Server')
     parser.add_argument('--host', default='127.0.0.1')
-    parser.add_argument('-p', '--port', default=9000, type=int)
+    parser.add_argument('-p', '--port', default=8000, type=int)
     parser.add_argument('--ssl', action='store_true')
     args = parser.parse_args()
 
